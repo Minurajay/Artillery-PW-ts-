@@ -1,0 +1,44 @@
+config:
+  target: "https://demoblaze.com/"
+  # phases:
+  #   # Injects one user every second for 3 seconds
+  #   - name: constantArrival
+  #     duration: 3
+  #     arrivalRate: 1
+  #   # Pause between phases
+  #   - name: pause
+  #     pause: 1
+  #   # Fixed arrival: 3 users over 10 seconds
+  #   - name: fixed
+  #     duration: 10
+  #     arrivalCount: 3
+  phases:
+  # Phase 1: Warm-up phase (Gentle start)
+  # Creates 1 user every second for 10 seconds (10 total users)
+  - name: "Warm up phase"
+    duration: 10
+    arrivalRate: 1
+
+  # Phase 2: Gradually increasing load (Slow ramp-up)
+  # Starts at 1 user/sec and increases to 2 users/sec over 20 seconds (~30 total users)
+  - name: "Ramp up load"
+    duration: 20
+    arrivalRate: 1
+    rampTo: 2
+
+  # Phase 3: Sustained load (~50 users total)
+  # Maintains 2 users/sec for 15 seconds (final ~50 users)
+  - name: "Sustained load"
+    duration: 15
+    arrivalRate: 2
+
+  engines:
+    playwright: {}
+      # launchOptions:
+      #   headless: false
+      #   slowMo: 50
+  processor: "./tests/artillery/login.ts"  # Note: Artillery will look for compiled JS files
+
+scenarios:
+  - engine: playwright
+    testFunction: "artilleryfunction"  # This is the exported function from our scenario file
