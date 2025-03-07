@@ -8,3 +8,13 @@ node_modules/
 
 #Github workflow
 /.github/workflows
+
+#js-tests
+/js-tests/
+
+/playwright.config.js
+
+/results.json
+/results.json.html
+
+/tsconfig.json
